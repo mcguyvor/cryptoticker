@@ -19,7 +19,7 @@ function useFetchTicker(symbol: string) {
           setErr(err);
         }
       };
-      fetchTicker();
+      setInterval(() => fetchTicker(), 5000);
     }
   }, [symbol]);
 

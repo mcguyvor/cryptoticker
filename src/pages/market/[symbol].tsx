@@ -11,6 +11,8 @@ const tokenSymbol = () => {
   const [selectedSymbol, setSelectedSymbol] = useState<string>("");
   const { data, err, isLoading } = useFetchTicker(selectedSymbol);
 
+  const [lastPrice, setLastPrice] = useState<string>("");
+
   const handleClick = (symbol: string) => {
     // e.preventDefault();
     setSelectedSymbol(symbol);
@@ -38,6 +40,12 @@ const tokenSymbol = () => {
 
   console.log(data);
 
+  useEffect(() => {
+    if (data) {
+      setLastPrice(data.lastPrice);
+      console.log("lastPrice", lastPrice);
+    }
+  }, [data]);
   return (
     <>
       <div onClick={() => handleClick("BTC_THB")}>BTC/THB</div>
@@ -46,7 +54,7 @@ const tokenSymbol = () => {
       {data && (
         <div>
           <div>{selectedSymbol}</div>
-          <div>{isLoading ? "loading" : data.lastPrice}</div>
+          <div>{isLoading ? "loading" : lastPrice}</div>
         </div>
       )}
     </>
