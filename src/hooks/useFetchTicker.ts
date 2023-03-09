@@ -10,6 +10,7 @@ function useFetchTicker(symbol: string) {
   useEffect(() => {
     if (symbol) {
       setLoading(true);
+
       const fetchTicker = async () => {
         try {
           const data = await getTicker(symbol);
@@ -19,7 +20,9 @@ function useFetchTicker(symbol: string) {
           setErr(err);
         }
       };
-      setInterval(() => fetchTicker(), 5000);
+      // setInterval(fetchTicker, 5000);
+      // clearInterval(myInterval);
+      fetchTicker();
     }
   }, [symbol]);
 
