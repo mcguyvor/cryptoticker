@@ -1,52 +1,67 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/router";
+import { useSelector, useDispatch } from "react-redux";
 
-import useFetchTicker from "../../hooks/useFetchTicker";
-import { useDispatch, useSelector } from "react-redux";
-import { selectingSymbol } from "../../store/symbol";
+import { PAIR } from "../../types/ticker";
+import { selectTicker } from "../../tickerSlice";
+
 const tokenSymbol = () => {
   const router = useRouter();
   const { symbol } = router.query;
 
-  const selectedSymbol = useSelector((state) => state.selectingSymbol.value);
+  const data = useSelector(selectTicker);
 
   const dispatch = useDispatch();
 
-  const { data, err, isLoading } = useFetchTicker(selectedSymbol);
+  const fetchTicker = (symbol: PAIR) => {
+    dispatch({ type: "FETCH_TICKER", payload: { symbol } });
+  };
 
-  const [lastPrice, setLastPrice] = useState<string>("");
-
-  const handleClick = (symbol: string) => {
+  const handleClick = (symbol: PAIR) => {
     router.push(symbol);
+    fetchTicker(symbol);
   };
 
   // change state from router.query
   useEffect(() => {
     if (symbol) {
-      dispatch(selectingSymbol(symbol));
+      fetchTicker(symbol);
     }
   }, [symbol]);
 
+  // useEffect(() => {
+  //   if (data) {
+  // setLastPrice(data.lastPrice);
+  // }
+  // }, [data]);
+
   useEffect(() => {
-    if (data) {
-      setLastPrice(data.lastPrice);
-    }
-  }, [data]);
+    const interval = setInterval(() => {
+      const values = Object.values(PAIR);
+
+      const par = window.location.href.split("/").pop();
+      if (values.includes((par as unknown) as PAIR)) {
+        //TODO:  Fix type
+        fetchTicker(par);
+      }
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <>
-      <div onClick={() => dispatch(selectingSymbol("test"))}>
-        Click {selectedSymbol}
-      </div>
-      <div onClick={() => handleClick("BTC_THB")}>BTC/THB</div>
-      <div onClick={() => handleClick("BUSD_THB")}>BUSD/THB</div>
-      <div onClick={() => handleClick("USDT_THB")}>USDT/THB</div>
+    <div>
+      <div onClick={() => handleClick(PAIR.BTC_THB)}>BTC/THB</div>
+      <div onClick={() => handleClick(PAIR.BUSD_THB)}>BUSD/THB</div>
+      <div onClick={() => handleClick(PAIR.USDT_THB)}>USDT/THB</div>
       {data && (
         <div>
-          <div>{selectedSymbol}</div>
-          <div>{isLoading ? "loading" : lastPrice}</div>
+          <div>{symbol}</div>
+          <div>{data.lastPrice}</div>
+          {/* <div>{isLoading ? "loading" : lastPrice}</div> */}
         </div>
       )}
-    </>
+    </div>
   );
 };
 

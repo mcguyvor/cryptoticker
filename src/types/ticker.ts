@@ -19,3 +19,8 @@ export type TickerResponse = {
   lastId: number;
   count: number;
 };
+export enum PAIR {
+  BTC_THB = "BTC_THB",
+  USDT_THB = "USDT_THB",
+  BUSD_THB = "BUSD_THB",
+}

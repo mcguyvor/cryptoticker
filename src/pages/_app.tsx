@@ -1,11 +1,14 @@
-import store from "../store/store";
+import { store } from "../store";
+
 import { Provider } from "react-redux";
 
 // FIXME:  fix any
-export default function App({ Component, pageProps }: any) {
+function App({ Component, pageProps }: any) {
   return (
     <Provider store={store}>
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
     </Provider>
   );
 }
+
+export default App;
