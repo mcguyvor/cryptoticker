@@ -1,4 +1,22 @@
 .container {
-  margin-left: 50%;
-  margin-right: 50%;
+  margin: 20%;
+}
+.dflex {
+  display: flex;
+}
+.flexChild1 {
+  flex-basis: 40%;
+}
+.flexChild1 {
+  .child {
+    width: 80%;
+    margin: 8px;
+  }
+}
+.flexChild2 {
+  flex-basis: 60%;
+}
+.dflexCol {
+  display: flex;
+  flex-direction: column;
 }

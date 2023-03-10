@@ -4,8 +4,13 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { PAIR } from "../../types/ticker";
 import { selectTicker } from "../../tickerSlice";
+import { Col, Row, Button, Space, Card } from "antd";
+import styles from "../../styles/Symbol.module.scss";
+import React from "react";
 
-const tokenSymbol = () => {
+const { Meta } = Card;
+
+const tokenSymbol: React.FC = () => {
   const router = useRouter();
   const { symbol } = router.query;
 
@@ -39,10 +44,10 @@ const tokenSymbol = () => {
     const interval = setInterval(() => {
       const values = Object.values(PAIR);
 
-      const par = window.location.href.split("/").pop();
-      if (values.includes((par as unknown) as PAIR)) {
+      const path = window.location.href.split("/").pop();
+      if (values.includes((path as unknown) as PAIR)) {
         //TODO:  Fix type
-        fetchTicker(par);
+        fetchTicker(path);
       }
     }, 5000);
 
@@ -50,17 +55,42 @@ const tokenSymbol = () => {
   }, []);
 
   return (
-    <div>
-      <div onClick={() => handleClick(PAIR.BTC_THB)}>BTC/THB</div>
-      <div onClick={() => handleClick(PAIR.BUSD_THB)}>BUSD/THB</div>
-      <div onClick={() => handleClick(PAIR.USDT_THB)}>USDT/THB</div>
-      {data && (
-        <div>
-          <div>{symbol}</div>
-          <div>{data.lastPrice}</div>
-          {/* <div>{isLoading ? "loading" : lastPrice}</div> */}
+    <div className={styles.container}>
+      <div className={styles.dflex}>
+        <div className={(styles.dflexCol, styles.flexChild1)}>
+          <Button
+            onClick={() => handleClick(PAIR.BTC_THB)}
+            className={styles.child}
+          >
+            BTC/THB
+          </Button>
+          <Button
+            onClick={() => handleClick(PAIR.BUSD_THB)}
+            className={styles.child}
+          >
+            BUSD/THB
+          </Button>
+          <Button
+            onClick={() => handleClick(PAIR.USDT_THB)}
+            className={styles.child}
+          >
+            USDT/THB
+          </Button>
         </div>
-      )}
+        {data && (
+          <Card style={{ width: "50%", paddingTop: "8px" }}>
+            {/* <div>{symbol}</div> */}
+            <p>{symbol}</p>
+            {/* <p>
+              <b>{data.lastPrice}</b>
+            </p> */}
+            <Meta
+              title={data.lastPrice}
+              description={`Volume: ${data.volume}`}
+            />
+          </Card>
+        )}
+      </div>
     </div>
   );
 };
