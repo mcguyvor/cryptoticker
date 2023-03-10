@@ -82,7 +82,7 @@ const tokenSymbol: React.FC = () => {
         </div>
         {data && (
           <Card style={{ width: "50%", paddingTop: "0", height: "150px" }}>
-            <p>{symbol}</p>
+            <p>{symbol.replace(/_/g, "/")}</p>
             {isLoading ? (
               <Spin tip='Loading' />
             ) : (
