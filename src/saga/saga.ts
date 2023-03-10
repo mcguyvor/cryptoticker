@@ -1,6 +1,6 @@
-import { call, put, takeEvery } from "redux-saga/effects";
+import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
 import getTicker from "../api/getTicker";
-import { addTicker } from "../tickerSlice";
+import { addTicker, isLoading } from "../tickerSlice";
 
 type FetchTickerAction = {
   type: string;
@@ -9,14 +9,14 @@ type FetchTickerAction = {
 
 export function* fetchTicker(action: FetchTickerAction) {
   try {
+    yield put(isLoading(true));
     const res = yield call(() => getTicker(action.payload.symbol));
-    console.log(res);
     yield put(addTicker(res));
-
-    // yield put(incrementByAmount(result.data[0]))
+    yield put(isLoading(false));
   } catch (e) {}
 }
+
 //evert action that call FETCH_TICKER
 export default function* rootSaga() {
-  yield takeEvery("FETCH_TICKER", fetchTicker);
+  yield takeLatest("FETCH_TICKER", fetchTicker);
 }

@@ -1,9 +1,8 @@
 import { store } from "../store";
-
+import { AppProps } from "next/app";
 import { Provider } from "react-redux";
 
-// FIXME:  fix any
-function App({ Component, pageProps }: any) {
+function App({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
       <Component {...pageProps} />

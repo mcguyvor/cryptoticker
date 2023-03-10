@@ -3,8 +3,8 @@ import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 
 import { PAIR } from "../../types/ticker";
-import { selectTicker } from "../../tickerSlice";
-import { Col, Row, Button, Space, Card } from "antd";
+import { selectTicker, loading } from "../../tickerSlice";
+import { Col, Row, Button, Space, Card, Spin } from "antd";
 import styles from "../../styles/Symbol.module.scss";
 import React from "react";
 
@@ -12,9 +12,12 @@ const { Meta } = Card;
 
 const tokenSymbol: React.FC = () => {
   const router = useRouter();
+
   const { symbol } = router.query;
 
   const data = useSelector(selectTicker);
+
+  const isLoading = useSelector(loading);
 
   const dispatch = useDispatch();
 
@@ -78,16 +81,16 @@ const tokenSymbol: React.FC = () => {
           </Button>
         </div>
         {data && (
-          <Card style={{ width: "50%", paddingTop: "8px" }}>
-            {/* <div>{symbol}</div> */}
+          <Card style={{ width: "50%", paddingTop: "0", height: "150px" }}>
             <p>{symbol}</p>
-            {/* <p>
-              <b>{data.lastPrice}</b>
-            </p> */}
-            <Meta
-              title={data.lastPrice}
-              description={`Volume: ${data.volume}`}
-            />
+            {isLoading ? (
+              <Spin tip='Loading' />
+            ) : (
+              <Meta
+                title={data.lastPrice}
+                description={`Volume: ${data.volume}`}
+              />
+            )}
           </Card>
         )}
       </div>
