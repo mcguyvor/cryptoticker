@@ -6,6 +6,15 @@ const nextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
   },
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/market/BTC_THB",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;

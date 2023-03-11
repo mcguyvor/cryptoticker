@@ -1,14 +1,12 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
-
 import { PAIR } from "../../types/ticker";
-import { selectTicker, loading } from "../../tickerSlice";
-import { Col, Row, Button, Space, Card, Spin } from "antd";
+import { selectTicker, loading, errMsg } from "../../tickerSlice";
+import { Button, Card, Spin } from "antd";
 import styles from "../../styles/Symbol.module.scss";
 import React from "react";
-
-const { Meta } = Card;
+import TickerDetail from "../../components/TickerDetail";
 
 const tokenSymbol: React.FC = () => {
   const router = useRouter();
@@ -18,6 +16,8 @@ const tokenSymbol: React.FC = () => {
   const data = useSelector(selectTicker);
 
   const isLoading = useSelector(loading);
+
+  const errorMessage = useSelector(errMsg);
 
   const dispatch = useDispatch();
 
@@ -80,19 +80,13 @@ const tokenSymbol: React.FC = () => {
             USDT/THB
           </Button>
         </div>
-        {data && (
-          <Card style={{ width: "50%", paddingTop: "0", height: "150px" }}>
-            <p>{symbol.replace(/_/g, "/")}</p>
-            {isLoading ? (
-              <Spin tip='Loading' />
-            ) : (
-              <Meta
-                title={data.lastPrice}
-                description={`Volume: ${data.volume}`}
-              />
-            )}
-          </Card>
-        )}
+
+        <TickerDetail
+          symbol={symbol}
+          isLoading={isLoading}
+          data={data}
+          errorMessage={errorMessage}
+        />
       </div>
     </div>
   );

@@ -20,3 +20,20 @@
   display: flex;
   flex-direction: column;
 }
+.borderRad0 {
+  border-radius: 0;
+}
+.tickerTitle {
+  display: flex;
+  align-items: center;
+}
+.priceChange {
+  display: flex;
+  align-items: flex-end;
+}
+.primaryRed {
+  color: #f5222d;
+}
+.primaryGreen {
+  color: #52c41a;
+}
