@@ -2,6 +2,7 @@ import { Card, Spin, Avatar, Space, Row, Col, Typography } from "antd";
 import { TickerResponse, PAIR } from "../types/ticker";
 import styles from "../styles/Symbol.module.scss";
 import { symbols } from "../static/symbols";
+import { formatNum } from "../utils/formatNum";
 
 interface TickerDetailProps {
   symbol: PAIR;
@@ -41,14 +42,14 @@ const TickerDetail = ({
             <Row>
               <Col span={12}>
                 <Meta
-                  title={`${data.lastPrice} THB`}
+                  title={`${formatNum(data.lastPrice)} THB`}
                   description={
                     <div>
                       Volume: {data.volume}
                       <br />
-                      High Price: {data.highPrice} THB
+                      High Price: {formatNum(data.highPrice)} THB
                       <br />
-                      Low Price: {data.lowPrice} THB
+                      Low Price: {formatNum(data.lowPrice)} THB
                     </div>
                   }
                 />
@@ -56,12 +57,12 @@ const TickerDetail = ({
               <Col span={12}>
                 <div
                   className={
-                    Math.sign(Number(data.priceChange)) === -1
+                    Math.sign(Number(data.priceChangePercent)) === -1
                       ? styles.primaryRed
                       : styles.primaryGreen
                   }
                 >
-                  <b>{`${data.priceChange}%`}</b>
+                  <b>{`${Number(data.priceChangePercent).toFixed(2)}%`}</b>
                 </div>
                 24h change
               </Col>
