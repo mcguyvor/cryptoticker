@@ -5,6 +5,7 @@ const initialState = {
   value: null,
   isLoading: false,
   errorMessage: "",
+  polling: false,
 };
 
 export const tickerSlice = createSlice({
@@ -20,10 +21,18 @@ export const tickerSlice = createSlice({
     errorMessage: (state: any, action: any) => {
       state.errorMessage = action.payload;
     },
+    START_POLLING: (state: any) => ({ ...state, polling: true }),
+    STOP_POLLING: (state: any) => ({ ...state, polling: false }),
   },
 });
 
-export const { addTicker, isLoading, errorMessage } = tickerSlice.actions;
+export const {
+  addTicker,
+  isLoading,
+  errorMessage,
+  START_POLLING,
+  STOP_POLLING,
+} = tickerSlice.actions;
 
 export const selectTicker = (state: any) => state.ticker.value;
 

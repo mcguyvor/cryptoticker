@@ -2,7 +2,13 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import { PAIR } from "../../types/ticker";
-import { selectTicker, loading, errMsg } from "../../tickerSlice";
+import {
+  selectTicker,
+  loading,
+  errMsg,
+  START_POLLING,
+  STOP_POLLING,
+} from "../../tickerSlice";
 import { Button, Card, Spin } from "antd";
 import styles from "../../styles/Symbol.module.scss";
 import React from "react";
@@ -37,25 +43,32 @@ const tokenSymbol: React.FC = () => {
     }
   }, [symbol]);
 
+  useEffect(() => {
+    dispatch(START_POLLING());
+    return () => {
+      dispatch(STOP_POLLING());
+    };
+  }, [dispatch]);
+
   // useEffect(() => {
   //   if (data) {
   // setLastPrice(data.lastPrice);
   // }
   // }, [data]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const values = Object.values(PAIR);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     const values = Object.values(PAIR);
 
-      const path = window.location.href.split("/").pop();
-      if (values.includes((path as unknown) as PAIR)) {
-        //TODO:  Fix type
-        fetchTicker(path);
-      }
-    }, 5000);
+  //     const path = window.location.href.split("/").pop();
+  //     if (values.includes((path as unknown) as PAIR)) {
+  //       //TODO:  Fix type
+  //       fetchTicker(path);
+  //     }
+  //   }, 5000);
 
-    return () => clearInterval(interval);
-  }, []);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   return (
     <div className={styles.container}>
