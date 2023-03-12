@@ -13,6 +13,7 @@ import { Button, Card, Spin } from "antd";
 import styles from "../../styles/Symbol.module.scss";
 import React from "react";
 import TickerDetail from "../../components/TickerDetail";
+import Head from "next/head";
 
 const tokenSymbol: React.FC = () => {
   const router = useRouter();
@@ -52,37 +53,43 @@ const tokenSymbol: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <div className={styles.container}>
-      <div className={styles.dflex}>
-        <div className={(styles.dflexCol, styles.flexChild1)}>
-          <Button
-            onClick={() => handleClick(PAIR.BTC_THB)}
-            className={styles.child}
-          >
-            BTC/THB
-          </Button>
-          <Button
-            onClick={() => handleClick(PAIR.BUSD_THB)}
-            className={styles.child}
-          >
-            BUSD/THB
-          </Button>
-          <Button
-            onClick={() => handleClick(PAIR.USDT_THB)}
-            className={styles.child}
-          >
-            USDT/THB
-          </Button>
-        </div>
+    <>
+      <Head>
+        <title>Crypto Price</title>
+        <meta property='og:title' content='Crypto Price' key='title' />
+      </Head>
+      <div className={styles.container}>
+        <div className={styles.dflex}>
+          <div className={(styles.dflexCol, styles.flexChild1)}>
+            <Button
+              onClick={() => handleClick(PAIR.BTC_THB)}
+              className={styles.child}
+            >
+              BTC/THB
+            </Button>
+            <Button
+              onClick={() => handleClick(PAIR.BUSD_THB)}
+              className={styles.child}
+            >
+              BUSD/THB
+            </Button>
+            <Button
+              onClick={() => handleClick(PAIR.USDT_THB)}
+              className={styles.child}
+            >
+              USDT/THB
+            </Button>
+          </div>
 
-        <TickerDetail
-          symbol={symbol}
-          isLoading={isLoading}
-          data={data}
-          errorMessage={errorMessage}
-        />
+          <TickerDetail
+            symbol={symbol}
+            isLoading={isLoading}
+            data={data}
+            errorMessage={errorMessage}
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
