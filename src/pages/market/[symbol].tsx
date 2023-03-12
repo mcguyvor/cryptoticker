@@ -9,7 +9,7 @@ import React from "react";
 import TickerDetail from "../../components/TickerDetail";
 import Head from "next/head";
 
-const tokenSymbol: React.FC = () => {
+const tokenSymbol = (): JSX.Element => {
   const router = useRouter();
 
   const { symbol } = router.query;
@@ -72,7 +72,6 @@ const tokenSymbol: React.FC = () => {
           </div>
 
           <TickerDetail
-            symbol={symbol}
             isLoading={isLoading}
             data={value}
             errorMessage={errorMessage}

@@ -1,12 +1,11 @@
 import { Card, Spin, Avatar, Space, Row, Col } from "antd";
-import { TickerResponse, PAIR } from "../types/ticker";
+import { TickerResponse } from "../types/ticker";
 import styles from "../styles/Symbol.module.scss";
-import { symbols } from "../static/symbols";
-import { formatPrice } from "../utils/formatNum";
+import { formatPrice } from "../utils/formatPrice";
 import TickerCard from "./TickerCard";
+import getAvatar from "../utils/getAvatar";
 
 interface TickerDetailProps {
-  symbol: PAIR;
   isLoading: boolean;
   data: TickerResponse;
   errorMessage: string;
@@ -15,60 +14,71 @@ interface TickerDetailProps {
 const { Meta } = Card;
 
 const TickerDetail = ({
-  symbol,
   isLoading,
   data,
   errorMessage,
-}: TickerDetailProps) => {
-  return errorMessage ? (
-    <TickerCard>
-      <p>{errorMessage}</p>
-    </TickerCard>
-  ) : (
-    data && (
+}: TickerDetailProps): JSX.Element | null => {
+  if (errorMessage) {
+    return (
       <TickerCard>
-        <div className={styles.tickerTitle}>
-          <Space>
-            <Avatar src={symbols[symbol].img} />
-            <p>{symbols[symbol].displayText}</p>
-          </Space>
-        </div>
-        {isLoading ? (
-          <Spin tip='Loading' style={{ marginTop: "16px" }} />
-        ) : (
-          <>
-            <Row>
-              <Col span={12}>
-                <Meta
-                  title={formatPrice(data.lastPrice)}
-                  description={
-                    <div>
-                      Volume: {data.volume}
-                      <br />
-                      High Price: {formatPrice(data.highPrice)}
-                      <br />
-                      Low Price: {formatPrice(data.lowPrice)}
-                    </div>
-                  }
-                />
-              </Col>
-              <Col span={12}>
-                <div
-                  className={
-                    Math.sign(Number(data.priceChangePercent)) === -1
-                      ? styles.primaryRed
-                      : styles.primaryGreen
-                  }
-                >
-                  <b>{`${Number(data.priceChangePercent).toFixed(2)}%`}</b>
-                </div>
-                24h change
-              </Col>
-            </Row>
-          </>
-        )}
+        <p>{errorMessage}</p>
       </TickerCard>
-    )
+    );
+  }
+  if (data === null) return null;
+
+  const {
+    symbol,
+    lastPrice,
+    volume,
+    highPrice,
+    lowPrice,
+    priceChangePercent,
+  } = data;
+
+  return (
+    <TickerCard>
+      <div className={styles.tickerTitle}>
+        <Space>
+          <Avatar src={getAvatar(symbol)} />
+          <p>{symbol.replace(/_/g, "/").toLocaleUpperCase()}</p>
+        </Space>
+      </div>
+      {isLoading ? (
+        <Spin tip='Loading' style={{ marginTop: "16px" }} />
+      ) : (
+        <>
+          <Row>
+            <Col span={12}>
+              <Meta
+                title={formatPrice(lastPrice)}
+                description={
+                  <div>
+                    Volume: {volume}
+                    <br />
+                    High Price: {formatPrice(highPrice)}
+                    <br />
+                    Low Price: {formatPrice(lowPrice)}
+                  </div>
+                }
+              />
+            </Col>
+            <Col span={12}>
+              <div
+                className={
+                  Math.sign(Number(priceChangePercent)) === -1
+                    ? styles.primaryRed
+                    : styles.primaryGreen
+                }
+              >
+                <b>{`${Number(priceChangePercent).toFixed(2)}%`}</b>
+              </div>
+              24h change
+            </Col>
+          </Row>
+        </>
+      )}
+    </TickerCard>
   );
 };
 export default TickerDetail;
