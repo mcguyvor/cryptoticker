@@ -14,7 +14,7 @@ import {
   errorMessage,
   startPolling,
   stopPolling,
-} from "../tickerSlice";
+} from "../stores/tickerSlice";
 
 type FetchTickerAction = {
   type: string;

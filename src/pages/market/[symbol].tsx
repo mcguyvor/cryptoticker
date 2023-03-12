@@ -2,14 +2,8 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import { PAIR } from "../../types/ticker";
-import {
-  selectTicker,
-  loading,
-  errMsg,
-  startPolling,
-  stopPolling,
-} from "../../tickerSlice";
-import { Button, Card, Spin } from "antd";
+import { startPolling, stopPolling, ticker } from "../../stores/tickerSlice";
+import { Button } from "antd";
 import styles from "../../styles/Symbol.module.scss";
 import React from "react";
 import TickerDetail from "../../components/TickerDetail";
@@ -20,11 +14,7 @@ const tokenSymbol: React.FC = () => {
 
   const { symbol } = router.query;
 
-  const data = useSelector(selectTicker);
-
-  const isLoading = useSelector(loading);
-
-  const errorMessage = useSelector(errMsg);
+  const { value, isLoading, errorMessage } = useSelector(ticker);
 
   const dispatch = useDispatch();
 
@@ -84,7 +74,7 @@ const tokenSymbol: React.FC = () => {
           <TickerDetail
             symbol={symbol}
             isLoading={isLoading}
-            data={data}
+            data={value}
             errorMessage={errorMessage}
           />
         </div>
