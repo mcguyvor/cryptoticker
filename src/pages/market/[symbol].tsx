@@ -6,8 +6,8 @@ import {
   selectTicker,
   loading,
   errMsg,
-  START_POLLING,
-  STOP_POLLING,
+  startPolling,
+  stopPolling,
 } from "../../tickerSlice";
 import { Button, Card, Spin } from "antd";
 import styles from "../../styles/Symbol.module.scss";
@@ -44,31 +44,12 @@ const tokenSymbol: React.FC = () => {
   }, [symbol]);
 
   useEffect(() => {
-    dispatch(START_POLLING());
+    dispatch(startPolling());
+    // cancel the polling when component unmounts
     return () => {
-      dispatch(STOP_POLLING());
+      dispatch(stopPolling());
     };
   }, [dispatch]);
-
-  // useEffect(() => {
-  //   if (data) {
-  // setLastPrice(data.lastPrice);
-  // }
-  // }, [data]);
-
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     const values = Object.values(PAIR);
-
-  //     const path = window.location.href.split("/").pop();
-  //     if (values.includes((path as unknown) as PAIR)) {
-  //       //TODO:  Fix type
-  //       fetchTicker(path);
-  //     }
-  //   }, 5000);
-
-  //   return () => clearInterval(interval);
-  // }, []);
 
   return (
     <div className={styles.container}>

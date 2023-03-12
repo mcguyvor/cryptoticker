@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { TickerResponse } from "./types/ticker";
 
 const initialState = {
   value: null,
@@ -21,8 +20,8 @@ export const tickerSlice = createSlice({
     errorMessage: (state: any, action: any) => {
       state.errorMessage = action.payload;
     },
-    START_POLLING: (state: any) => ({ ...state, polling: true }),
-    STOP_POLLING: (state: any) => ({ ...state, polling: false }),
+    startPolling: (state: any) => ({ ...state, polling: true }),
+    stopPolling: (state: any) => ({ ...state, polling: false }),
   },
 });
 
@@ -30,8 +29,8 @@ export const {
   addTicker,
   isLoading,
   errorMessage,
-  START_POLLING,
-  STOP_POLLING,
+  startPolling,
+  stopPolling,
 } = tickerSlice.actions;
 
 export const selectTicker = (state: any) => state.ticker.value;

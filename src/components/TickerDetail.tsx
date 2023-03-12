@@ -3,6 +3,7 @@ import { TickerResponse, PAIR } from "../types/ticker";
 import styles from "../styles/Symbol.module.scss";
 import { symbols } from "../static/symbols";
 import { formatNum } from "../utils/formatNum";
+import TickerCard from "./TickerCard";
 
 interface TickerDetailProps {
   symbol: PAIR;
@@ -20,15 +21,12 @@ const TickerDetail = ({
   errorMessage,
 }: TickerDetailProps) => {
   return errorMessage ? (
-    <Card style={{ width: "50%", paddingTop: "0", height: "150px" }}>
+    <TickerCard>
       <p>{errorMessage}</p>
-    </Card>
+    </TickerCard>
   ) : (
     data && (
-      <Card
-        style={{ width: "50%", paddingTop: "0", height: "150px" }}
-        bodyStyle={{ paddingTop: "0" }}
-      >
+      <TickerCard>
         <div className={styles.tickerTitle}>
           <Space>
             <Avatar src={symbols[symbol].img} />
@@ -36,7 +34,7 @@ const TickerDetail = ({
           </Space>
         </div>
         {isLoading ? (
-          <Spin tip='Loading' />
+          <Spin tip='Loading' style={{ marginTop: "16px" }} />
         ) : (
           <>
             <Row>
@@ -69,7 +67,7 @@ const TickerDetail = ({
             </Row>
           </>
         )}
-      </Card>
+      </TickerCard>
     )
   );
 };
