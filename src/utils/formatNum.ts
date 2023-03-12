@@ -1,3 +1,6 @@
-export function formatNum(s: string) {
-  return s.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+export function formatPrice(price: string) {
+  return new Intl.NumberFormat("th", {
+    style: "currency",
+    currency: "THB",
+  }).format(Number(price));
 }

@@ -1,8 +1,8 @@
-import { Card, Spin, Avatar, Space, Row, Col, Typography } from "antd";
+import { Card, Spin, Avatar, Space, Row, Col } from "antd";
 import { TickerResponse, PAIR } from "../types/ticker";
 import styles from "../styles/Symbol.module.scss";
 import { symbols } from "../static/symbols";
-import { formatNum } from "../utils/formatNum";
+import { formatPrice } from "../utils/formatNum";
 import TickerCard from "./TickerCard";
 
 interface TickerDetailProps {
@@ -40,14 +40,14 @@ const TickerDetail = ({
             <Row>
               <Col span={12}>
                 <Meta
-                  title={`${formatNum(data.lastPrice)} THB`}
+                  title={formatPrice(data.lastPrice)}
                   description={
                     <div>
                       Volume: {data.volume}
                       <br />
-                      High Price: {formatNum(data.highPrice)} THB
+                      High Price: {formatPrice(data.highPrice)}
                       <br />
-                      Low Price: {formatNum(data.lowPrice)} THB
+                      Low Price: {formatPrice(data.lowPrice)}
                     </div>
                   }
                 />
