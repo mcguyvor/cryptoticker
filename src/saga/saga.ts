@@ -41,7 +41,7 @@ export function* fetchTicker(action: FetchTickerAction) {
   }
 }
 
-//evert action that call FETCH_TICKER
+//every action that call FETCH_TICKER
 export default function* rootSaga() {
   while (yield take(startPolling)) {
     const x = yield takeLatest("FETCH_TICKER", fetchTicker);

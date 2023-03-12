@@ -1,5 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction } from "@reduxjs/toolkit/dist/createAction";
+import { TickerResponse } from "../types/ticker";
 
+type tickerStore = {
+  value: TickerResponse;
+  isLoading: boolean;
+  errorMessage: string;
+  polling: boolean;
+};
 const initialState = {
   value: null,
   isLoading: false,
@@ -11,17 +19,17 @@ export const tickerSlice = createSlice({
   name: "ticker",
   initialState,
   reducers: {
-    addTicker: (state: any, action: any) => {
+    addTicker: (state: tickerStore, action: PayloadAction<TickerResponse>) => {
       state.value = action.payload;
     },
-    isLoading: (state: any, action: any) => {
+    isLoading: (state: tickerStore, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
     },
-    errorMessage: (state: any, action: any) => {
+    errorMessage: (state: tickerStore, action: PayloadAction<string>) => {
       state.errorMessage = action.payload;
     },
-    startPolling: (state: any) => ({ ...state, polling: true }),
-    stopPolling: (state: any) => ({ ...state, polling: false }),
+    startPolling: (state: tickerStore) => ({ ...state, polling: true }),
+    stopPolling: (state: tickerStore) => ({ ...state, polling: false }),
   },
 });
 
