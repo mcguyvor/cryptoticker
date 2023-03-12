@@ -33,12 +33,6 @@ export const {
   stopPolling,
 } = tickerSlice.actions;
 
-export const selectTicker = (state: any) => state.ticker.value;
-
-export const loading = (state: any) => state.ticker.isLoading;
-
-export const errMsg = (state: any) => state.ticker.errorMessage;
-
 export const ticker = (state: any) => state.ticker;
 
 export default tickerSlice.reducer;
